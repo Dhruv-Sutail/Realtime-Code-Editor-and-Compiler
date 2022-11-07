@@ -11,6 +11,7 @@ const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const { executeJavascript } = require("./executeJavascript");
 const Job = require("./models/Job");
+const path = require("path");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,6 +36,11 @@ const server = http.createServer(app);
 
 const io = new Server(server);
 const PORT = process.env.PORT || 5000;
+
+app.use(express.static("build"));
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const userSocketMap = {};
 

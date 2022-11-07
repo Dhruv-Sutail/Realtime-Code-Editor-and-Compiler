@@ -105,14 +105,17 @@ const EditorPage = () => {
         setJobId("");
         setStatus("");
         setOutput("");
-        const { data } = await axios.post("http://localhost:5000/run", payload);
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/run`,
+          payload
+        );
         setJobId(data.jobId);
         setError("");
         let intervalId;
 
         intervalId = setInterval(async () => {
           const { data: dataRes } = await axios.get(
-            "http://localhost:5000/status",
+            `${process.env.REACT_APP_BACKEND_URL}/status`,
             { params: { id: data.jobId } }
           );
           const { success, job, error } = dataRes;
